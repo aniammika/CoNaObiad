@@ -17,13 +17,18 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 
 
-app.MapGet("/dishes", async (DishesDbContext dishesDbContext) =>
+app.MapGet("/dishes", async (DishesDbContext dishesDbContext, IMapper mapper) =>
 {
-    return await dishesDbContext.Dishes.ToListAsync();
+    return mapper.Map<DishDto>(await dishesDbContext.Dishes.ToListAsync());
 });
 app.MapGet("/dishes/{dishId:guid}", async (DishesDbContext dishesDbContext, IMapper mapper, Guid dishId) =>
 {
     return mapper.Map<DishDto>(await dishesDbContext.Dishes.FirstOrDefaultAsync(d => d.Id == dishId));
 });
+
+app.MapGet("/tag", async (DishesDbContext dishesDbContext) =>
+{
+    return await dishesDbContext.Tags.ToListAsync();
+}); ;
 
 app.Run();
