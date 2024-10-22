@@ -1,9 +1,7 @@
 ﻿namespace CoNaObiadAPI.Models
 {
-    public class DishDto
+    public class DishForUpdateDto
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }

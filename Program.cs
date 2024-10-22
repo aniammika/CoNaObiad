@@ -1,8 +1,13 @@
 using AutoMapper;
+using CoNaObiadAPI.Endpoints;
 using CoNaObiadAPI.Models;
 using CoNaObiadAPI.SqliteContext;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+//build with help of https://app.pluralsight.com/library/courses/asp-dot-net-core-7-building-minimal-apis/description
+//Building ASP.NET Core Minimal APIs
+//by Kevin Dockx
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,14 +21,12 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
+DishesEndpoints.Map(app);
+TagsEndpoints.Map(app);
 
-app.MapGet("/dishes", async (DishesDbContext dishesDbContext) =>
+app.MapGet("/tag", async (DishesDbContext dishesDbContext) =>
 {
-    return await dishesDbContext.Dishes.ToListAsync();
-});
-app.MapGet("/dishes/{dishId:guid}", async (DishesDbContext dishesDbContext, IMapper mapper, Guid dishId) =>
-{
-    return mapper.Map<DishDto>(await dishesDbContext.Dishes.FirstOrDefaultAsync(d => d.Id == dishId));
-});
+    return await dishesDbContext.Tags.ToListAsync();
+}); ;
 
 app.Run();
