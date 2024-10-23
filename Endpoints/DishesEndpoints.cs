@@ -1,11 +1,5 @@
-﻿using AutoMapper;
+﻿using CoNaObiadAPI.EndpointFilters;
 using CoNaObiadAPI.EndpointsHandlers;
-using CoNaObiadAPI.Entities;
-using CoNaObiadAPI.Models;
-using CoNaObiadAPI.SqliteContext;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoNaObiadAPI.Endpoints
 {
@@ -20,9 +14,9 @@ namespace CoNaObiadAPI.Endpoints
 
             dishesEndpoints.MapGet("", DishesHandlers.GetDishesAsync);
             dishesEndpointsWithId.MapGet("", DishesHandlers.GetDishAsync).WithName("GetDish");
-            dishesEndpoints.MapPost("", DishesHandlers.CreateDishAsync);
+            dishesEndpoints.MapPost("", DishesHandlers.CreateDishAsync).AddEndpointFilter<EndpointAnnotationsFilter>();
             dishesEndpointsWithId.MapPut("", DishesHandlers.UpdateDishAsync);
-            dishesEndpointsWithId.MapDelete("", DishesHandlers.DeleteDishAsync);
+            dishesEndpointsWithId.MapDelete("", DishesHandlers.DeleteDishAsync).AddEndpointFilter<LogNotFoundResponseFilter>();
         }
     }
 }

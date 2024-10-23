@@ -4,7 +4,6 @@ using CoNaObiadAPI.Models;
 using CoNaObiadAPI.SqliteContext;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoNaObiadAPI.EndpointsHandlers
@@ -15,8 +14,11 @@ namespace CoNaObiadAPI.EndpointsHandlers
         public static async Task<Ok<IEnumerable<DishDto>>> GetDishesAsync
             (DishesDbContext dishesDbContext, 
             IMapper mapper, 
+            ILogger<DishDto> logger,
             [FromQuery] string? name)
         {
+            logger.LogInformation("Get dishes called");
+
             return TypedResults.Ok(mapper.Map<IEnumerable<DishDto>>(await dishesDbContext.Dishes
                 .Where(d => name == null || d.Name.ToLower().Contains(name.ToLower()))
                 .ToListAsync()));
