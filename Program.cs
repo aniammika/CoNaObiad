@@ -1,10 +1,7 @@
-using AutoMapper;
 using CoNaObiadAPI.Endpoints;
-using CoNaObiadAPI.Models;
 using CoNaObiadAPI.SqliteContext;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
+using Microsoft.OpenApi.Models;
 
 //build with help of https://app.pluralsight.com/library/courses/asp-dot-net-core-7-building-minimal-apis/description
 //Building ASP.NET Core Minimal APIs
@@ -26,6 +23,31 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy("RequireAdmin", policy =>
     policy.RequireRole("admin"));
 
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("TokenAuth",
+    new()
+    {
+        Name = "Authorization",
+        Description = "Token-based authentication and authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        In = ParameterLocation.Header
+    }); 
+    options.AddSecurityRequirement(new()
+     {
+         {
+              new ()
+              {
+                  Reference = new OpenApiReference {
+                      Type = ReferenceType.SecurityScheme,
+                      Id = "TokenAuth" }
+              }, new List<string>()}
+     });
+});
+
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
@@ -45,6 +67,10 @@ if (!app.Environment.IsDevelopment())
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+
+//adding documentation
+app.UseSwagger();
+app.UseSwaggerUI();
 
 //it's not necessary, builder.Services.AddAuthentication().AddJwtBearer(); is enough. but for clarity worth to have.
 app.UseAuthentication();
