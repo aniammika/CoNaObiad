@@ -1,12 +1,4 @@
-﻿using AutoMapper;
-using CoNaObiadAPI.EndpointFilters;
-using CoNaObiadAPI.EndpointHandlers;
-using CoNaObiadAPI.EndpointsHandlers;
-using CoNaObiadAPI.Entities;
-using CoNaObiadAPI.Models.Tag;
-using CoNaObiadAPI.SqliteContext;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
+﻿using CoNaObiadAPI.EndpointHandlers;
 
 namespace CoNaObiadAPI.Endpoints
 {
