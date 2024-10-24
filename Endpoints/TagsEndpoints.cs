@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using CoNaObiadAPI.EndpointFilters;
+using CoNaObiadAPI.EndpointHandlers;
+using CoNaObiadAPI.EndpointsHandlers;
 using CoNaObiadAPI.Entities;
-using CoNaObiadAPI.Models;
+using CoNaObiadAPI.Models.Tag;
 using CoNaObiadAPI.SqliteContext;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -13,20 +16,16 @@ namespace CoNaObiadAPI.Endpoints
         {
             //route groups
             //https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers?view=aspnetcore-8.0#route-groups
-            var tagsEndpoints = app.MapGroup("/tags");
-            var tagsPerDish = app.MapGroup("/dishes/{dishId}/tags");
+            var tagsEndpoints = app.MapGroup("/tags").RequireAuthorization();
+            var tagsPerDish = app.MapGroup("/dishes/{dishId}/tags").RequireAuthorization();
+            var tagsEndpointsWithId = app.MapGroup("/tags/{tagId:guid}").RequireAuthorization();
 
-            tagsEndpoints.MapGet("", async Task<Ok<IEnumerable<TagDto>>> (DishesDbContext dishesDbContext, IMapper mapper) =>
-            {
-                return TypedResults.Ok(mapper.Map<IEnumerable<TagDto>>(await dishesDbContext.Tags.ToListAsync()));
-            });
-
-            tagsPerDish.MapGet("", async Task<Ok<IEnumerable<TagDto>>> (DishesDbContext dishesDbContext, IMapper mapper, Guid dishId) =>
-            {
-                return TypedResults.Ok(mapper.Map<IEnumerable<TagDto>>((await dishesDbContext.Dishes
-                    .Include(d => d.Tags)
-                    .FirstOrDefaultAsync(d => d.Id == dishId))?.Tags));
-            });
+            tagsEndpoints.MapGet("", TagsHandlers.GetTagsAsync);
+            tagsEndpoints.MapGet("/withDishes", TagsHandlers.GetTagsWithDishesAsync);
+            //adding new tag requires admin role
+            tagsEndpoints.MapPost("", TagsHandlers.CreateTagAsync).RequireAuthorization("RequireAdmin");
+            tagsPerDish.MapGet("", TagsHandlers.TagsPerDishAsync);
+            tagsEndpointsWithId.MapDelete("", TagsHandlers.DeleteTagAsync);
         }
     }
 }

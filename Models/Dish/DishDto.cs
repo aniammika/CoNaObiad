@@ -1,4 +1,4 @@
-﻿namespace CoNaObiadAPI.Models
+﻿namespace CoNaObiadAPI.Models.Dish
 {
     public class DishDto
     {

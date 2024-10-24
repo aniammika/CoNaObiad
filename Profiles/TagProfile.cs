@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CoNaObiadAPI.Entities;
 using CoNaObiadAPI.Models;
+using CoNaObiadAPI.Models.Tag;
 
 namespace CoNaObiadAPI.Profiles
 {
@@ -8,8 +9,10 @@ namespace CoNaObiadAPI.Profiles
     {
         public TagProfile()
         {
-            CreateMap<Tag, TagDto>().
-                ForMember(d => d.DishId, o => o.MapFrom(s => s.Dishes.First().Id));
+            CreateMap<Tag, TagDto>();
+            CreateMap<Tag, TagWithDishesDto>().
+                ForMember(d => d.RelatedDishes, o => o.MapFrom(s => s.Dishes.ToArray()));
+            CreateMap<TagForCreationDto, Tag>();
         }
     }
 }
