@@ -1,5 +1,4 @@
-﻿
-using CoNaObiadAPI.Models;
+﻿using CoNaObiadAPI.Models.Dish;
 using MiniValidation;
 
 namespace CoNaObiadAPI.EndpointFilters

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CoNaObiadAPI.Entities;
-using CoNaObiadAPI.Models;
+using CoNaObiadAPI.Models.Dish;
 using CoNaObiadAPI.SqliteContext;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +24,7 @@ namespace CoNaObiadAPI.EndpointsHandlers
                 .ToListAsync()));
         }
         #endregion
+
         #region getDish
         public static async Task<Results<NotFound, Ok<DishDto>>> GetDishAsync
             (DishesDbContext dishesDbContext, 
@@ -39,6 +40,7 @@ namespace CoNaObiadAPI.EndpointsHandlers
             return TypedResults.Ok(mapper.Map<DishDto>(foundDish));
         }
         #endregion
+
         #region create
         public static async Task<Created<DishDto>> CreateDishAsync
                 (DishesDbContext dishesDbContext,
@@ -61,6 +63,7 @@ namespace CoNaObiadAPI.EndpointsHandlers
             //return TypedResult.CreatedAtRoute(dishToReturn, "GetDish", new (dishId = dishToReturn.Id });
         }
         #endregion
+
         #region update
         public static async Task<Results<NotFound, NoContent>> UpdateDishAsync
                 (DishesDbContext dishesDbContext,
@@ -82,6 +85,7 @@ namespace CoNaObiadAPI.EndpointsHandlers
             return TypedResults.NoContent();
         }
         #endregion
+
         #region delete
         public static async Task<Results<NotFound, NoContent>> DeleteDishAsync
             (DishesDbContext dishesDbContext,

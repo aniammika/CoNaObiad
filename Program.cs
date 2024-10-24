@@ -18,6 +18,14 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddProblemDetails();
 
+//adding authentication
+builder.Services.AddAuthentication().AddJwtBearer();
+builder.Services.AddAuthorization();
+
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("RequireAdmin", policy =>
+    policy.RequireRole("admin"));
+
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
@@ -37,6 +45,10 @@ if (!app.Environment.IsDevelopment())
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+
+//it's not necessary, builder.Services.AddAuthentication().AddJwtBearer(); is enough. but for clarity worth to have.
+app.UseAuthentication();
+app.UseAuthorization();
 
 DishesEndpoints.Map(app);
 TagsEndpoints.Map(app);

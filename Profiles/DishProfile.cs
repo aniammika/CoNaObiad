@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CoNaObiadAPI.Entities;
-using CoNaObiadAPI.Models;
+using CoNaObiadAPI.Models.Dish;
 
 namespace CoNaObiadAPI.Profiles
 {

@@ -14,6 +14,8 @@ namespace CoNaObiadAPI.Entities
 
         public ICollection<Dish> Dishes { get; set; } = new List<Dish>();
 
+        public Tag() { }
+        
         [SetsRequiredMembers]
         public Tag(Guid id, string name)
         {
