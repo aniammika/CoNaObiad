@@ -27,36 +27,8 @@ namespace CoNaObiadAPI.EndpointHandlers
         }
         #endregion
 
-        #region tagsWithDishes
-        public static async Task<Ok<IEnumerable<TagWithDishesDto>>> GetTagsWithDishesAsync
-            (DishesDbContext dishesDbContext,
-            IMapper mapper,
-            ILogger<TagWithDishesDto> logger,
-            [FromQuery] string? name)
-        {
-            logger.LogInformation("Get tags called");
-
-            return TypedResults.Ok(mapper.Map<IEnumerable<TagWithDishesDto>>(await dishesDbContext.Tags
-                                .Where(d => name == null || d.Name.ToLower().Contains(name.ToLower())).ToListAsync()));
-        }
-        #endregion
-
-        #region tagsPerDish
-        public static async Task<Ok<IEnumerable<TagWithDishesDto>>> TagsPerDishAsync
-            (DishesDbContext dishesDbContext,
-            IMapper mapper, Guid dishId,
-            ILogger<TagWithDishesDto> logger)
-        {
-            logger.LogInformation("Get tags per dish called");
-
-            return TypedResults.Ok(mapper.Map<IEnumerable<TagWithDishesDto>>((await dishesDbContext.Dishes
-                    .Include(d => d.Tags)
-                    .FirstOrDefaultAsync(d => d.Id == dishId))?.Tags));
-        }
-        #endregion
-
         #region create
-        public static async Task<Created<TagWithDishesDto>> CreateTagAsync
+        public static async Task<Created<TagDto>> CreateTagAsync
                     (DishesDbContext dishesDbContext,
                     IMapper mapper,
                     [FromBody] TagForCreationDto tagForCreationDto,
@@ -68,7 +40,7 @@ namespace CoNaObiadAPI.EndpointHandlers
             dishesDbContext.Add(tagEntity);
             await dishesDbContext.SaveChangesAsync();
 
-            var tagToReturn = mapper.Map<TagWithDishesDto>(tagEntity);
+            var tagToReturn = mapper.Map<TagDto>(tagEntity);
 
             var linkToDish = linkGenerator.GetUriByName(httpContext, "GetTag", new { dishId = tagToReturn.Id });
             return TypedResults.Created(linkToDish, tagToReturn);

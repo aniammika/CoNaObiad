@@ -1,4 +1,5 @@
-﻿using CoNaObiadAPI.Endpoints;
+﻿using CoNaObiadAPI.EndpointHandlers;
+using CoNaObiadAPI.Endpoints;
 using CoNaObiadAPI.SqliteContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -84,6 +85,7 @@ namespace CoNaObiadAPI
 
             DishesEndpoints.Map(app);
             TagsEndpoints.Map(app);
+            DishTagEndpoints.Map(app);
 
             return app;
         }
