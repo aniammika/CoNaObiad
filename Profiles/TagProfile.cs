@@ -10,8 +10,6 @@ namespace CoNaObiadAPI.Profiles
         public TagProfile()
         {
             CreateMap<Tag, TagDto>();
-            CreateMap<Tag, TagWithDishesDto>().
-                ForMember(d => d.RelatedDishes, o => o.MapFrom(s => s.Dishes.ToArray()));
             CreateMap<TagForCreationDto, Tag>();
         }
     }
