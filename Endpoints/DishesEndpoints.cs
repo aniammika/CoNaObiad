@@ -10,7 +10,7 @@ namespace CoNaObiadAPI.Endpoints
             //route groups
             //https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers?view=aspnetcore-8.0#route-groups
             var dishesEndpoints = app.MapGroup("/dishes").RequireAuthorization();
-            var dishesEndpointsWithId = app.MapGroup("/dishes/{dishId:guid}").RequireAuthorization();
+            var dishesEndpointsWithId = app.MapGroup("/dishes/{dishId}").RequireAuthorization();
 
             dishesEndpoints.MapGet("", DishesHandlers.GetDishesAsync);
             dishesEndpointsWithId.MapGet("", DishesHandlers.GetDishAsync).WithName("GetDish");

@@ -17,8 +17,8 @@ namespace CoNaObiadAPI.EndpointHandlers
         public static async Task<Results<NotFound, NoContent>> AddTagToDishAsync
                 (DishesDbContext dishesDbContext,
                 IMapper mapper,
-                Guid dishId,
-                Guid tagId)
+                int dishId,
+                int tagId)
         {
             var dishToCheck = await dishesDbContext.Dishes.FirstOrDefaultAsync(d => d.Id == dishId);
             var tagToCheck = await dishesDbContext.Tags.FirstOrDefaultAsync(d => d.Id == tagId);
@@ -36,7 +36,7 @@ namespace CoNaObiadAPI.EndpointHandlers
         #region getTagsPerDish
         public static async Task<Ok<List<TagDto>>> GetTagsPerDishAsync
             (DishesDbContext dishesDbContext,
-            IMapper mapper, Guid dishId,
+            IMapper mapper, int dishId,
             ILogger<DishTagDto> logger)
         {
             logger.LogInformation("Get tags per dish called");

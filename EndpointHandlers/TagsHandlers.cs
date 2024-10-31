@@ -50,7 +50,7 @@ namespace CoNaObiadAPI.EndpointHandlers
         #region delete
         public static async Task<Results<NotFound, NoContent>> DeleteTagAsync
             (DishesDbContext dishesDbContext,
-                Guid tagId)
+                int tagId)
         {
             var tagEntity = await dishesDbContext.Tags.FirstOrDefaultAsync(d => d.Id == tagId);
             if (tagEntity == null)

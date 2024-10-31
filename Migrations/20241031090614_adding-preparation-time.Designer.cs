@@ -2,6 +2,7 @@
 using CoNaObiadAPI.SqliteContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoNaObiadAPI.Migrations
 {
     [DbContext(typeof(DishesDbContext))]
-    partial class DishesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031090614_adding-preparation-time")]
+    partial class addingpreparationtime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -161,13 +164,13 @@ namespace CoNaObiadAPI.Migrations
             modelBuilder.Entity("CoNaObiadAPI.Entities.Dish", b =>
                 {
                     b.HasOne("CoNaObiadAPI.Entities.PreparationTime", "PreparationTime")
-                        .WithMany("Dishes")
+                        .WithMany()
                         .HasForeignKey("PreparationTimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CoNaObiadAPI.Entities.Season", "Season")
-                        .WithMany("Dishes")
+                        .WithMany()
                         .HasForeignKey("SeasonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -190,16 +193,6 @@ namespace CoNaObiadAPI.Migrations
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CoNaObiadAPI.Entities.PreparationTime", b =>
-                {
-                    b.Navigation("Dishes");
-                });
-
-            modelBuilder.Entity("CoNaObiadAPI.Entities.Season", b =>
-                {
-                    b.Navigation("Dishes");
                 });
 #pragma warning restore 612, 618
         }

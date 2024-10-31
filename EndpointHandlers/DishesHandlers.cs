@@ -29,7 +29,7 @@ namespace CoNaObiadAPI.EndpointsHandlers
         public static async Task<Results<NotFound, Ok<DishDto>>> GetDishAsync
             (DishesDbContext dishesDbContext, 
             IMapper mapper, 
-            Guid dishId)
+            int dishId)
         {
             var foundDish = await dishesDbContext.Dishes.FirstOrDefaultAsync(d => d.Id == dishId);
 
@@ -64,11 +64,12 @@ namespace CoNaObiadAPI.EndpointsHandlers
         }
         #endregion
 
+        //TODO: now only complete update is possible (of the whole object), partial update should be possible as well 
         #region update
         public static async Task<Results<NotFound, NoContent>> UpdateDishAsync
                 (DishesDbContext dishesDbContext,
                 IMapper mapper,
-                Guid dishId,
+                int dishId,
                 DishForUpdateDto dishForUpdateDto)
         {
             var dishEntity = await dishesDbContext.Dishes.FirstOrDefaultAsync(d => d.Id == dishId);
@@ -89,7 +90,7 @@ namespace CoNaObiadAPI.EndpointsHandlers
         #region delete
         public static async Task<Results<NotFound, NoContent>> DeleteDishAsync
             (DishesDbContext dishesDbContext,
-                Guid dishId)
+                int dishId)
         {
             var dishEntity = await dishesDbContext.Dishes.FirstOrDefaultAsync(d => d.Id == dishId);
             if (dishEntity == null)

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace CoNaObiadAPI.Entities
@@ -6,7 +7,8 @@ namespace CoNaObiadAPI.Entities
     public class Tag
     {
         [Key]
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(60)]
@@ -17,9 +19,8 @@ namespace CoNaObiadAPI.Entities
         public Tag() { }
         
         [SetsRequiredMembers]
-        public Tag(Guid id, string name)
-        {
-            Id = id;   
+        public Tag(string name)
+        { 
             Name = name;
         }
     }
