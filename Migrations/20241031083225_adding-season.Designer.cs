@@ -2,6 +2,7 @@
 using CoNaObiadAPI.SqliteContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoNaObiadAPI.Migrations
 {
     [DbContext(typeof(DishesDbContext))]
-    partial class DishesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031083225_adding-season")]
+    partial class addingseason
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -32,15 +35,10 @@ namespace CoNaObiadAPI.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PreparationTimeId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("SeasonId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PreparationTimeId");
 
                     b.HasIndex("SeasonId");
 
@@ -68,43 +66,6 @@ namespace CoNaObiadAPI.Migrations
                     b.ToTable("DishTag");
                 });
 
-            modelBuilder.Entity("CoNaObiadAPI.Entities.PreparationTime", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Time")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PreparationTime");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Time = "Fast"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Time = "Medium"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Time = "Slow"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Time = "Extra-slow"
-                        });
-                });
-
             modelBuilder.Entity("CoNaObiadAPI.Entities.Season", b =>
                 {
                     b.Property<int>("Id")
@@ -123,22 +84,22 @@ namespace CoNaObiadAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Winter"
+                            Name = "Zima"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Spring"
+                            Name = "Wiosna"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Summer"
+                            Name = "Lato"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Autumn"
+                            Name = "Jesień"
                         });
                 });
 
@@ -160,19 +121,11 @@ namespace CoNaObiadAPI.Migrations
 
             modelBuilder.Entity("CoNaObiadAPI.Entities.Dish", b =>
                 {
-                    b.HasOne("CoNaObiadAPI.Entities.PreparationTime", "PreparationTime")
-                        .WithMany("Dishes")
-                        .HasForeignKey("PreparationTimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CoNaObiadAPI.Entities.Season", "Season")
-                        .WithMany("Dishes")
+                        .WithMany()
                         .HasForeignKey("SeasonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("PreparationTime");
 
                     b.Navigation("Season");
                 });
@@ -190,16 +143,6 @@ namespace CoNaObiadAPI.Migrations
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CoNaObiadAPI.Entities.PreparationTime", b =>
-                {
-                    b.Navigation("Dishes");
-                });
-
-            modelBuilder.Entity("CoNaObiadAPI.Entities.Season", b =>
-                {
-                    b.Navigation("Dishes");
                 });
 #pragma warning restore 612, 618
         }

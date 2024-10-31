@@ -10,8 +10,8 @@ namespace CoNaObiadAPI.Endpoints
         {
             var tagDishEndpoints = app.MapGroup("/dishesTags").RequireAuthorization();
 
-            tagDishEndpoints.MapPost("{dishId:guid}/{tagId:guid}", DishTagHandlers.AddTagToDishAsync);
-            tagDishEndpoints.MapGet("{dishId:guid}", DishTagHandlers.GetTagsPerDishAsync);
+            tagDishEndpoints.MapPost("{dishId}/{tagId}", DishTagHandlers.AddTagToDishAsync);
+            tagDishEndpoints.MapGet("{dishId}", DishTagHandlers.GetTagsPerDishAsync);
         }
     }
 }

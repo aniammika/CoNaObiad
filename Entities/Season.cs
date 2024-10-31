@@ -2,13 +2,13 @@
 
 namespace CoNaObiadAPI.Entities
 {
-    public class DishTag
+    public class Season
     {
         [Key]
         public int Id { get; set; }
 
-        public int DishesId { get; set; }
+        public string Name { get; set; }
 
-        public int TagsId { get; set; }
+        public ICollection<Dish> Dishes { get; } = new List<Dish>();
     }
 }

@@ -2,8 +2,8 @@
 {
     public class DishTagDto
     {
-        public Guid DishesId { get; set; }
+        public int DishesId { get; set; }
 
-        public Guid TagsId { get; set; }
+        public int TagsId { get; set; }
     }
 }
